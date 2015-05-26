@@ -24,13 +24,15 @@ import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
-    TextView txv1, txv2, txv3, txv4, txv5, txv6, txv7;
-    ImageView imgStatusGPS;
-    Button btnStartGPS;
+    // TextView for the report
+    private TextView txv1, txv2, txv3, txv4, txv5, txv6, txv7;
+
+    private ImageView imgStatusGPS;
+    private Button btnStartGPS;
 
     private Context context;
 
-    LocationManager locationManager;
+    private LocationManager locationManager;
     private BroadcastReceiver br;
     private SpeedService s;
     private float speed;
@@ -52,6 +54,9 @@ public class MainActivity extends ActionBarActivity {
         imgStatusGPS = (ImageView) findViewById(R.id.img_status_gps);
         btnStartGPS = (Button) findViewById(R.id.btn_start_gps);
 
+        /* Verify if the GPS is enabled or not
+            If enabled, will start the service.
+         */
         btnStartGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,10 +65,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        /* Starting a local BroadcastReceiver
+            It will receive only when the activity is visible
+         */
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                // Detect custom broadcast event
                 if(intent.getAction() == "it.test.speed") {
+                    // Updating the report..
                     speed = s.getSpeed();
                     txv1.setText(txv1.getText() + " " + speed);
                     txv2.setText(txv2.getText() + " " + (speed * 3.6));
@@ -76,6 +86,7 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
+        // Register the BroadcastReceiver dinamically
         LocalBroadcastManager.getInstance(this).registerReceiver(br, new IntentFilter("it.test.speed"));
     }
 
@@ -83,12 +94,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // On activity resume, restore the service
         Intent intent= new Intent(this, SpeedService.class);
         bindService(intent, mConnection,
                 Context.BIND_AUTO_CREATE);
         verifyGPS();
     }
 
+    // Create e connect to the service through the mConnection variable
     private ServiceConnection mConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className,
@@ -106,7 +120,10 @@ public class MainActivity extends ActionBarActivity {
 
     private void verifyGPS () {
 
+        // Get the GPS system service
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        // If the GPS is not enabled, will be show a dialog
         if(((ColorDrawable)imgStatusGPS.getBackground()).getColor() == getResources().getColor(R.color.grey)) {
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -139,13 +156,15 @@ public class MainActivity extends ActionBarActivity {
                 alert.show();
             } else {
 
-                imgStatusGPS.setBackgroundColor(getResources().getColor(R.color.green));
+                // Here start the service that get the GPS info
                 startService(new Intent(context, SpeedService.class));
+                imgStatusGPS.setBackgroundColor(getResources().getColor(R.color.green));
 
             }
         } else {
-            imgStatusGPS.setBackgroundColor(getResources().getColor(R.color.grey));
+            // Here destroy the service
             s.onDestroy();
+            imgStatusGPS.setBackgroundColor(getResources().getColor(R.color.grey));
         }
     }
 

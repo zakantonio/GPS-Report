@@ -46,7 +46,8 @@ public class SpeedService extends Service {
         // Define a listener that responds to location updates
         locationListener = new LocationListener() {
 
-
+            // When a different location is detected, the service update the report variable
+            // You need to call the getter method to take this infos
             public void onLocationChanged(Location location) {
                 location.getLatitude();
                 speed = location.getSpeed();
@@ -55,6 +56,7 @@ public class SpeedService extends Service {
                 altitude = (float) location.getAltitude();
                 accuracy = location.getAccuracy();
                 bearing = location.getBearing();
+                // Sending a custom broadcast intent, it will be detected in the MainActivity
                 Intent i = new Intent("it.test.speed");
                 sendBroadcast(i);
 
@@ -64,6 +66,7 @@ public class SpeedService extends Service {
             public void onProviderDisabled(String provider) { }
         };
 
+        // This need to receive the update from the GPS sensor
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
         return START_STICKY;
@@ -71,6 +74,7 @@ public class SpeedService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        // Stop the GPS updates and destroy the service
         locationManager.removeUpdates(locationListener);
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
     }
@@ -99,6 +103,7 @@ public class SpeedService extends Service {
     public float getBearing() {
         return bearing;
     }
+    
     public class MyBinder extends Binder {
         SpeedService getService() {
             return SpeedService.this;

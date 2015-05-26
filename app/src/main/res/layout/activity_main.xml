@@ -11,12 +11,16 @@
         android:layout_height="40dp"
         android:layout_marginBottom="15dp"
         android:text="GPS On/Off"/>
+
+    <!-- Give only the statusof the GPS (On/Off) -->
     <ImageView
         android:id="@+id/img_status_gps"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_marginBottom="15dp"
         android:background="@color/grey"/>
+
+    <!-- Starting report from GPS Sensor -->
     <TextView
         android:id="@+id/txv_speed_ms"
         android:text="Current speed m/s:"
