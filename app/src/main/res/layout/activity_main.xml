@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+    <Button
+        android:id="@+id/btn_start_gps"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:text="GPS On/Off"/>
+    <ImageView
+        android:id="@+id/img_status_gps"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/grey"/>
+    <TextView
+        android:id="@+id/txv_speed_ms"
+        android:text="Current speed m/s:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_speed_kmh"
+        android:text="Current speed km/h:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_latitude"
+        android:text="Current latitude °:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_longitude"
+        android:text="Current longitude °:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_altitude"
+        android:text="Current altitude °:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_accuracy"
+        android:text="Current accuracy m:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/txv_bearing"
+        android:text="Current bearing °:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
